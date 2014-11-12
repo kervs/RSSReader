@@ -24,8 +24,19 @@
 - (instancetype) init {
     self = [super init];
     if (self) {
-        [[Datasource sharedInstance] getRssData];
         
+        [[Datasource sharedInstance] addObserver:self forKeyPath:@"self.rssItems" options:NSKeyValueObservingOptionNew context:nil];
+        
+        
+        
+    }
+    return self;
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    
+    if (object ) {
         NSMutableArray *rsstmp = [NSMutableArray array];
         
         for (Post *post in [Datasource sharedInstance].rssItems) {
@@ -34,15 +45,21 @@
         }
         
         self.rssItems = rsstmp;
-        
     }
-    return self;
+    [self.tableView reloadData];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 
+- (void)dealloc {
+    [[Datasource sharedInstance] removeObserver:self forKeyPath:@"self.rssItems"];
+}
 
-
-
+- (void)loadView {
+    [super loadView];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -51,7 +68,6 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     
-
 
     [self.tableView registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"cell"];
 
