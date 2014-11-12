@@ -20,7 +20,7 @@
         self.post = userDictionary[@"summary"][@"label"];
         self.cost = [userDictionary valueForKeyPath:@"im:price.label"];
         NSArray *urlImage = [userDictionary valueForKeyPath:@"im:image.label"];
-        NSLog(@"%@",self.cost);
+        
        NSURL *imageURL = [NSURL URLWithString:urlImage[1]];
         
         if (imageURL) {

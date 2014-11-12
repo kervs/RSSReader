@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
 
 @interface ViewController : UIViewController
+@property (nonatomic,strong)Post *currentPost;
+@property (nonatomic,assign)BOOL favorPost;
 
 
 @end

@@ -7,12 +7,39 @@
 //
 
 #import "RSSTableViewController.h"
+#import "Datasource.h"
+#import "Post.h"
+#import "FavPostTableViewController.h"
+#import "ViewController.h"
+#import "CustomTableViewCell.h"
 
-@interface RSSTableViewController ()
-
+@interface RSSTableViewController () 
+@property (nonatomic,strong)NSArray *rssItems;
+@property (nonatomic,strong)UIBarButtonItem *favPost;
 @end
 
 @implementation RSSTableViewController
+
+
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        NSMutableArray *rsstmp = [NSMutableArray array];
+        [[Datasource sharedInstance] getRssData];
+        for (Post *post in [Datasource sharedInstance].rssItems) {
+            [rsstmp addObject:post];
+            //NSLog(@"%@",post.post);
+        }
+        
+                self.rssItems = rsstmp;
+       
+    }
+    return self;
+}
+
+
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,37 +48,57 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.tableView registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"cell"];
+
+    self.favPost = [[UIBarButtonItem alloc] initWithTitle:@"My Fav Post" style:UIBarButtonItemStylePlain target:self action:@selector(favPostButtonFired:)];
+     self.navigationItem.rightBarButtonItem = _favPost;
+    
+    self.title = @"Apple RSS Post";
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)favPostButtonFired:(id)sender {
+    FavPostTableViewController *favPost = [[FavPostTableViewController alloc]init];
+    
+    [self.navigationController pushViewController:favPost animated:YES];
+    
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.rssItems.count;
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    CustomTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    
     
     // Configure the cell...
+    Post *post = [self.rssItems objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = post.title;
+   
+    cell.imageView.image = post.postImage;
+    
     
     return cell;
 }
-*/
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ViewController *viewPost = [[ViewController alloc]init];
+    viewPost.currentPost = (Post *)[self.rssItems objectAtIndex:indexPath.row];
+    
+    
+    [self.navigationController pushViewController:viewPost animated:YES];;
+}
 
 /*
 // Override to support conditional editing of the table view.

@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "RSSTableViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +17,15 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:[[RSSTableViewController alloc]init]];
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    self.window.rootViewController = navController;
+    return YES;
     return YES;
 }
 
