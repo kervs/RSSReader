@@ -31,21 +31,21 @@
     
     if (self) {
         
-        NSURL *url = [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topgrossingapplications/sf=143441/limit=25/json"];
-        NSData *jsonResults = [NSData dataWithContentsOfURL:url];
-        NSDictionary *rssList = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
-        rssList = [rssList valueForKeyPath:@"feed.entry"];
-        NSMutableArray *tmpRSSItems = [NSMutableArray array];
-        //NSLog(@"RSS json %@",rssList);
-        for (NSDictionary *rssDic in rssList) {
-            Post *postItem = [[Post alloc]initWithDictionary:rssDic];
-            //NSLog(@"%@",postItem.postImage);
-            if (postItem) {
-                [tmpRSSItems addObject:postItem];
-            }
-        }
-        //NSLog(@"count %@",tmpRSSItems[0]);
-        self.rssItems = [[NSArray alloc]initWithArray:tmpRSSItems];
+//        NSURL *url = [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topgrossingapplications/sf=143441/limit=25/json"];
+//        NSData *jsonResults = [NSData dataWithContentsOfURL:url];
+//        NSDictionary *rssList = [NSJSONSerialization JSONObjectWithData:jsonResults options:0 error:NULL];
+//        rssList = [rssList valueForKeyPath:@"feed.entry"];
+//        NSMutableArray *tmpRSSItems = [NSMutableArray array];
+//        //NSLog(@"RSS json %@",rssList);
+//        for (NSDictionary *rssDic in rssList) {
+//            Post *postItem = [[Post alloc]initWithDictionary:rssDic];
+//            //NSLog(@"%@",postItem.postImage);
+//            if (postItem) {
+//                [tmpRSSItems addObject:postItem];
+//            }
+//        }
+//        //NSLog(@"count %@",tmpRSSItems[0]);
+//        self.rssItems = [[NSArray alloc]initWithArray:tmpRSSItems];
         
         self.managedObjectContext = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
 

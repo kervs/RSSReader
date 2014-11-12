@@ -21,6 +21,23 @@
 @implementation RSSTableViewController
 
 
+- (instancetype) init {
+    self = [super init];
+    if (self) {
+        [[Datasource sharedInstance] getRssData];
+        
+        NSMutableArray *rsstmp = [NSMutableArray array];
+        
+        for (Post *post in [Datasource sharedInstance].rssItems) {
+            [rsstmp addObject:post];
+            //NSLog(@"%@",post.post);
+        }
+        
+        self.rssItems = rsstmp;
+        
+    }
+    return self;
+}
 
 
 
@@ -33,14 +50,6 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    NSMutableArray *rsstmp = [NSMutableArray array];
-    [[Datasource sharedInstance] getRssData];
-    for (Post *post in [Datasource sharedInstance].rssItems) {
-        [rsstmp addObject:post];
-        //NSLog(@"%@",post.post);
-    }
-    
-    self.rssItems = rsstmp;
     
 
 
