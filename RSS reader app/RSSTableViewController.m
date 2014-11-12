@@ -21,21 +21,6 @@
 @implementation RSSTableViewController
 
 
-- (instancetype) init {
-    self = [super init];
-    if (self) {
-        NSMutableArray *rsstmp = [NSMutableArray array];
-        [[Datasource sharedInstance] getRssData];
-        for (Post *post in [Datasource sharedInstance].rssItems) {
-            [rsstmp addObject:post];
-            //NSLog(@"%@",post.post);
-        }
-        
-                self.rssItems = rsstmp;
-       
-    }
-    return self;
-}
 
 
 
@@ -48,6 +33,17 @@
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    NSMutableArray *rsstmp = [NSMutableArray array];
+    [[Datasource sharedInstance] getRssData];
+    for (Post *post in [Datasource sharedInstance].rssItems) {
+        [rsstmp addObject:post];
+        //NSLog(@"%@",post.post);
+    }
+    
+    self.rssItems = rsstmp;
+    
+
+
     [self.tableView registerClass:[CustomTableViewCell class] forCellReuseIdentifier:@"cell"];
 
     self.favPost = [[UIBarButtonItem alloc] initWithTitle:@"My Fav Post" style:UIBarButtonItemStylePlain target:self action:@selector(favPostButtonFired:)];
